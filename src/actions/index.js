@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
+import Firebase from 'firebase';
 import {
   AUTH_USER,
   UNAUTH_USER,
@@ -7,18 +8,19 @@ import {
   FETCH_MESSAGE
 } from './types';
 
-const ROOT_URL = 'http://localhost:3090';
+const YOUR_FIREBASE_APP = '<YOUR-FIREBASE-APP>';
+const ref = new Firebase(`https://${YOUR_FIREBASE_APP}.firebaseio.com`);
 
 export function signinUser({ email, password }) {
   return function(dispatch) {
     // Submit email/password to the server
-    axios.post(`${ROOT_URL}/signin`, { email, password })
-      .then(response => {
+    ref.authWithPassword({ email, password })
+      .then(authData => {
         // If request is good...
         // - Update state to indicate user is authenticated
         dispatch({ type: AUTH_USER });
         // - Save the JWT token
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('token', authData.token);
         // - redirect to the route '/feature'
         browserHistory.push('/feature');
       })
@@ -32,13 +34,17 @@ export function signinUser({ email, password }) {
 
 export function signupUser({ email, password }) {
   return function(dispatch) {
-    axios.post(`${ROOT_URL}/signup`, { email, password })
-      .then(response => {
-        dispatch({ type: AUTH_USER });
-        localStorage.setItem('token', response.data.token);
-        browserHistory.push('/feature');
+    ref.createUser({ email, password })
+      .then((userData) => {
+        ref.authWithPassword({email, password})
+          .then(authData => {
+            dispatch({ type: AUTH_USER });
+            localStorage.setItem('token', authData.token);
+            browserHistory.push('/feature');
+          })
+          .catch(error => dispatch(authError(error.code)));
       })
-      .catch(response => dispatch(authError(response.data.error)));
+      .catch(error => dispatch(authError(error.code)));
   }
 }
 
@@ -51,20 +57,13 @@ export function authError(error) {
 
 export function signoutUser() {
   localStorage.removeItem('token');
-
+  ref.unauth();
   return { type: UNAUTH_USER };
 }
 
 export function fetchMessage() {
-  return function(dispatch) {
-    axios.get(ROOT_URL, {
-      headers: { authorization: localStorage.getItem('token') }
-    })
-      .then(response => {
-        dispatch({
-          type: FETCH_MESSAGE,
-          payload: response.data.message
-        });
-      });
+  return{
+    type: FETCH_MESSAGE,
+    payload: "This is it!"
   }
 }
