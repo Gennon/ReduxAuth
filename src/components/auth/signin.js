@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import * as actions from '../../actions';
+import { Button, FormControl, FormGroup, ControlLabel, Well, Col} from 'react-bootstrap';
 
 class Signin extends Component {
   handleFormSubmit({ email, password }) {
@@ -22,20 +23,40 @@ class Signin extends Component {
     const { handleSubmit, fields: { email, password }} = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-        <fieldset className="form-group">
-          <label>Email:</label>
-          <input {...email} className="form-control" />
-        </fieldset>
-        <fieldset className="form-group">
-          <label>Password:</label>
-          <input {...password} type="password" className="form-control" />
-        </fieldset>
-        {this.renderAlert()}
-        <button action="submit" className="btn btn-primary">Sign in</button>
-      </form>
+      <Col md={6} mdOffset={3}>
+        <Well>
+          <h3>Sign In</h3>
+          <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+            <FormGroup>
+              <ControlLabel>Email:</ControlLabel>
+              <FormControl type="text" {...email} />
+              {email.touched && email.error && <div className="error">{email.error}</div>}
+            </FormGroup>
+            <FormGroup>
+              <ControlLabel>Password:</ControlLabel>
+              <FormControl  type="password" {...password} />
+              {password.touched && password.error && <div className="error">{password.error}</div>}
+            </FormGroup>
+            {this.renderAlert()}
+            <Button type="submit" bsStyle="primary">Sign in</Button>
+          </form>
+        </Well>
+      </Col>
     );
   }
+}
+
+function validate(formProps) {
+  const errors = {};
+
+  if (!formProps.email) {
+    errors.email = 'Please enter an email';
+  }
+
+  if (!formProps.password) {
+    errors.password = 'Please enter a password';
+  }
+  return errors;
 }
 
 function mapStateToProps(state) {
@@ -44,5 +65,6 @@ function mapStateToProps(state) {
 
 export default reduxForm({
   form: 'signin',
-  fields: ['email', 'password']
+  fields: ['email', 'password'],
+  validate
 }, mapStateToProps, actions)(Signin);
