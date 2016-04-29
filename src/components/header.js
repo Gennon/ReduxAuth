@@ -1,35 +1,42 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 class Header extends Component {
   renderLinks() {
     if (this.props.authenticated) {
       // show a link to sign out
-      return <li className="nav-item">
-        <Link className="nav-link" to="/signout">Sign Out</Link>
-      </li>
-    } else {
+      return <LinkContainer to="/signout">
+        <NavItem eventKey={1}>Sign Out</NavItem>
+      </LinkContainer>
+    } 
+    else {
       // show a link to sign in or sign up
       return [
-        <li className="nav-item" key={1}>
-          <Link className="nav-link" to="/signin">Sign In</Link>
-        </li>,
-        <li className="nav-item" key={2}>
-          <Link className="nav-link" to="/signup">Sign Up</Link>
-        </li>
+        <LinkContainer to="/signin" key={1}>
+          <NavItem eventKey={1}>Sign In</NavItem>
+        </LinkContainer>,
+        <LinkContainer to="/signuo" key={2}>
+          <NavItem eventKey={2}>Sign Up</NavItem>
+        </LinkContainer>
       ];
     }
   }
 
   render() {
     return (
-      <nav className="navbar navbar-light">
-        <Link to="/" className="navbar-brand">Redux Auth</Link>
-        <ul className="nav navbar-nav">
+      <Navbar>
+        <Navbar.Header>
+          <Navbar.Brand>
+            <Link to="/">Redux Auth</Link>
+          </Navbar.Brand>
+        </Navbar.Header>
+        <Nav pullRight>
           {this.renderLinks()}
-        </ul>
-      </nav>
+        </Nav>
+      </Navbar>
     );
   }
 }
