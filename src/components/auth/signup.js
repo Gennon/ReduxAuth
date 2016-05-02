@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import * as actions from '../../actions';
 import FormItem from '../forms/form_item';
-import { Col, Well, Button } from 'react-bootstrap';
+import FormWrapper from '../forms/form_wrapper';
+import { Button } from 'react-bootstrap';
 
 class Signup extends Component {
   handleFormSubmit(formProps) {
@@ -24,18 +25,13 @@ class Signup extends Component {
     const { handleSubmit, fields: { email, password, passwordConfirm }} = this.props;
 
     return (
-      <Col md={6} mdOffset={3}>
-        <Well>
-          <h3>Sign Up</h3>
-          <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-            <FormItem label="Email:" type="text" field={email} />
-            <FormItem label="Password:" type="password" field={password} />
-            <FormItem label="Confirm Password:" type="password" field={passwordConfirm} />
-            {this.renderAlert()}
-            <Button action="submit" bsStyle="primary">Sign up!</Button>
-          </form>
-        </Well>
-      </Col>
+      <FormWrapper name="Sign Up" onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+        <FormItem label="Email:" type="text" field={email} />
+        <FormItem label="Password:" type="password" field={password} />
+        <FormItem label="Confirm Password:" type="password" field={passwordConfirm} />
+        {this.renderAlert()}
+        <Button action="submit" bsStyle="primary">Sign up!</Button>
+      </FormWrapper>
     );
   }
 }

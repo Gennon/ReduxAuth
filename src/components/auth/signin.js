@@ -3,6 +3,7 @@ import { reduxForm } from 'redux-form';
 import * as actions from '../../actions';
 import { Button, Well, Col} from 'react-bootstrap';
 import FormItem from '../forms/form_item';
+import FormWrapper from '../forms/form_wrapper';
 
 class Signin extends Component {
   handleFormSubmit({ email, password }) {
@@ -24,17 +25,12 @@ class Signin extends Component {
     const { handleSubmit, fields: { email, password }} = this.props;
 
     return (
-      <Col md={6} mdOffset={3}>
-        <Well>
-          <h3>Sign In</h3>
-          <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-            <FormItem label="Email:" type="text" field={email} />
-            <FormItem label="Password:" type="password" field={password} />
-            {this.renderAlert()}
-            <Button type="submit" bsStyle="primary">Sign in</Button>
-          </form>
-        </Well>
-      </Col>
+      <FormWrapper name="Sign In" onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+        <FormItem label="Email:" type="text" field={email} />
+        <FormItem label="Password:" type="password" field={password} />
+        {this.renderAlert()}
+        <Button type="submit" bsStyle="primary">Sign in</Button>
+      </FormWrapper>
     );
   }
 }
