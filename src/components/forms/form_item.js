@@ -4,9 +4,12 @@ import { FormControl, FormGroup, ControlLabel} from 'react-bootstrap';
 class FormItem extends Component {
   render() {
     const {label, type, field} = this.props;
+    const options = {};
+    if (field.touched && field.error)
+      options['validationState'] = 'error';
     
     return (
-      <FormGroup validationState={field.touched && field.error && "error"}>
+      <FormGroup {...options}>
         <ControlLabel>{label}</ControlLabel>
         <FormControl type={type} {...field}>
           {this.props.children}
