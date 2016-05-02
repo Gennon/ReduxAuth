@@ -18,7 +18,7 @@ class Header extends Component {
         <LinkContainer to="/signin" key={1}>
           <NavItem eventKey={1}>Sign In</NavItem>
         </LinkContainer>,
-        <LinkContainer to="/signuo" key={2}>
+        <LinkContainer to="/signup" key={2}>
           <NavItem eventKey={2}>Sign Up</NavItem>
         </LinkContainer>
       ];

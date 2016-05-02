@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import * as actions from '../../actions';
-import { Button, FormControl, FormGroup, ControlLabel, Well, Col} from 'react-bootstrap';
+import { Button, Well, Col} from 'react-bootstrap';
+import FormItem from '../forms/form_item';
 
 class Signin extends Component {
   handleFormSubmit({ email, password }) {
@@ -27,16 +28,8 @@ class Signin extends Component {
         <Well>
           <h3>Sign In</h3>
           <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-            <FormGroup>
-              <ControlLabel>Email:</ControlLabel>
-              <FormControl type="text" {...email} />
-              {email.touched && email.error && <div className="error">{email.error}</div>}
-            </FormGroup>
-            <FormGroup>
-              <ControlLabel>Password:</ControlLabel>
-              <FormControl  type="password" {...password} />
-              {password.touched && password.error && <div className="error">{password.error}</div>}
-            </FormGroup>
+            <FormItem label="Email:" type="text" field={email} />
+            <FormItem label="Password:" type="password" field={password} />
             {this.renderAlert()}
             <Button type="submit" bsStyle="primary">Sign in</Button>
           </form>
