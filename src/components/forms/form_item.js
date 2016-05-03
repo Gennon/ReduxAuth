@@ -11,12 +11,25 @@ class FormItem extends Component {
     return (
       <FormGroup {...options}>
         <ControlLabel>{label}</ControlLabel>
-        <FormControl type={type} {...field}>
-          {this.props.children}
-        </FormControl>
+        {this.renderController(type, field)}
         {field.touched && field.error && <div>{field.error}</div>}
       </FormGroup>
     );
+  }
+  
+  renderController(type, field){
+    if(this.props.type === 'select'){
+      return (
+        <FormControl componentClass="select" {...field}>
+          {this.props.children}
+        </FormControl>
+      );
+    }
+    else{
+      return (
+        <FormControl type={type} {...field} />
+      );
+    }
   }
 }
 
