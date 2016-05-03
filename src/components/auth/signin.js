@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import * as actions from '../../actions';
-import { Button, Well, Col} from 'react-bootstrap';
-import FormItem from '../forms/form_item';
-import FormWrapper from '../forms/form_wrapper';
+import { FormWrapper, FormItem } from '../forms';
 
 class Signin extends Component {
   handleFormSubmit({ email, password }) {

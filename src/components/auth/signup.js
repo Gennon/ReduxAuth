@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import * as actions from '../../actions';
-import FormItem from '../forms/form_item';
-import FormWrapper from '../forms/form_wrapper';
-import { Button } from 'react-bootstrap';
+import { FormWrapper, FormItem } from '../forms';
 
 class Signup extends Component {
   handleFormSubmit(formProps) {
