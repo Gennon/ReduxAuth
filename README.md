@@ -23,3 +23,10 @@ Click [here](https://github.com/StephenGrider/ReactStarter/releases) then downlo
 	> npm install
 	> npm start
 ```
+
+###Contribute###
+
+Install eslint:
+```
+	> npm install -g eslint eslint-plugin-react
+```
